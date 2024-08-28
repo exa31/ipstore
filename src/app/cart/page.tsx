@@ -13,7 +13,7 @@ export default function Cart() {
         <div className="flex mx-auto my-10  container">
             <div className="h-[800px]">
                 <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-                <div className="flex relative m-4 flex-col max-h-[750px] gap-8 overflow-y-scroll">
+                <div className="flex  m-4 flex-col max-h-[750px] gap-8 overflow-y-scroll">
                     {cart.map((item, index) => {
                         return (
                             <ListCart data={item} key={index} />
