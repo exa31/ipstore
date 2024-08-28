@@ -6,6 +6,7 @@ import { formatRupiah } from "@/helper/index";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { useState } from "react";
 import { FcLike } from "react-icons/fc";
+import Link from "next/link";
 
 export default function Card({ data }: { data: CardProps }) {
 
@@ -17,7 +18,7 @@ export default function Card({ data }: { data: CardProps }) {
     };
 
     return (
-        <a className="group relative block overflow-hidden rounded-lg bg-slate-100">
+        <div className="group relative block overflow-hidden rounded-lg bg-slate-100">
             <button
                 className="z-10 w-full rounded-full text-gray-900 transition hover:text-gray-900/75"
             >
@@ -43,13 +44,13 @@ export default function Card({ data }: { data: CardProps }) {
                 <p className="mt-1.5 text-2xl font-semibold text-gray-700">{formatRupiah(data.price)}</p>
 
                 <form className="mt-4 flex justify-center">
-                    <button
+                    <Link href={`/shop/${data._id}`}
                         className="block rounded-lg w-full bg-black p-4 text-sm font-medium transition hover:scale-105 text-white"
                     >
-                        Buy Now
-                    </button>
+                        See Detail
+                    </Link>
                 </form>
             </div>
-        </a>
+        </div>
     )
 }

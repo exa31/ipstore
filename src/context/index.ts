@@ -1,15 +1,18 @@
 import { createContext } from "react";
+interface CartItems {
+    product: {
+        _id: string;
+        name: string;
+        price: number;
+        image_thumbnail: string;
+    }
+    quantity: number;
+}[];
 
-interface SearchQuery {
-    searchQuery: string;
-    setSearchQuery: (value: string) => void;
+
+export interface CartType {
+    cart: CartItems[];
+    setCart: React.Dispatch<React.SetStateAction<CartItems[]>>;
 }
 
-interface SelectedCategory {
-    selectedCategory: string;
-    setCategorySelected: (category: string) => void;
-}
-
-export const SelectedCategoryContext = createContext({} as SelectedCategory);
-
-export const SearchQueryContext = createContext({} as SearchQuery);
+export const CartProvider = createContext<CartType | null>(null);

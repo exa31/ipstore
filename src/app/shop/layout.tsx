@@ -9,7 +9,7 @@ interface categoriesType {
     id: string;
 }
 
-export default function ShopLayouts({ children }: { children: React.ReactNode }) {
+export default function ShopLayouts({ children }: { children: React.ReactNode, }) {
 
     const [categories, setCategories] = useState<categoriesType[]>([]);
 

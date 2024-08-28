@@ -7,7 +7,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { IoIosHeartEmpty } from "react-icons/io";
 import axios from "axios";
-import { FormEvent } from "react";
+import { FormEvent, useContext, useEffect } from "react";
+import { CartProvider, CartType } from "@/context";
+import { formatRupiah } from "@/helper";
 
 
 interface FormData extends FormEvent<HTMLFormElement> {
@@ -20,15 +22,27 @@ interface FormData extends FormEvent<HTMLFormElement> {
 
 export default function Navbar() {
 
-    const { status } = useSession();
-
     const pathname: string = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
+    const cartContext: CartType | null = useContext(CartProvider)!;
+    const { cart, setCart } = cartContext;
+    const { status } = useSession();
 
+    useEffect(() => {
+        if (status === 'authenticated') {
+            axios.get('/api/cart').then(res => {
+                setCart(res.data.products);
+            });
+        }
+    }, [status, setCart]);
+
+    const totalPriceCart = cart.reduce((acc, item) => {
+        return acc + item.product.price * item.quantity;
+    }, 0)
 
     const handleLogout = async () => {
-        await signOut({ redirect: false });
+        await signOut();
         await axios.get('/api/auth/logout');
     }
 
@@ -101,17 +115,17 @@ export default function Navbar() {
                                         strokeWidth="2"
                                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
-                                <span className="badge badge-sm indicator-item">8</span>
+                                <span className="badge badge-sm indicator-item">{cart.length}</span>
                             </div>
                         </div>
                         <div
                             tabIndex={0}
                             className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
                             <div className="card-body">
-                                <span className="text-lg font-bold">8 Items</span>
-                                <span className="text-info">Subtotal: $999</span>
+                                <span className="text-lg font-bold">{cart.length} Items</span>
+                                <span className="text-info">Subtotal: {formatRupiah(totalPriceCart)}</span>
                                 <div className="card-actions">
-                                    <button className="btn btn-primary btn-block">View cart</button>
+                                    <Link href={'/cart'} className="btn btn-primary btn-block">View cart</Link>
                                 </div>
                             </div>
                         </div>
