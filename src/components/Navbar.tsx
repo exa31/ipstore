@@ -73,7 +73,7 @@ export default function Navbar() {
                             <h1 className="md:text-3xl text-lg font-bold text-black">cyber</h1>
                         </a>
                     </div>
-                    <div className="sm:w-full w-[100px]">
+                    <div className="sm:w-1/3 w-[100px]">
                         <form onSubmit={handleSearch} >
                             <label htmlFor="search" className="text-black gap-2 items-center rounded-lg bg-gray-100 p-2 mx-2 md:mx-8 flex">
                                 <button type="submit"><HiMagnifyingGlass className="text-xl" /></button>
@@ -81,7 +81,7 @@ export default function Navbar() {
                             </label>
                         </form>
                     </div>
-                    <nav className={`flex md:items-start items-center gap-6 text-sm ${active ? 'absolute sm:hidden z-40 sm:mt-0 mt-16 top-0 bg-white sm:h-auto h-screen right-0 w-60 flex-col transition-all duration-200 md:flex-row' : 'overflow-hidden absolute z-40 mt-16 top-0 bg-white h-screen right-0 w-0 transition-all duration-200 md:flex-row flex-col'}`}>
+                    <nav className={`flex md:items-start items-center gap-6 text-sm ${active ? 'absolute sm:static z-40 sm:mt-0 mt-16 top-0 bg-white sm:h-auto h-screen right-0 w-60 sm:w-max flex-col transition-all duration-200 md:flex-row' : 'overflow-hidden sm:static absolute z-40 mt-16 top-0 bg-white h-screen right-0 sm:w-full w-0 transition-all duration-200 md:flex-row flex-col'}`}>
                         <p>
                             <Link className={` transition hover:text-black ${pathname === '/' ? 'text-black cursor-default' : 'text-gray-500'}`} href="/"> Home </Link>
                         </p>
