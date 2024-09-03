@@ -3,6 +3,8 @@ import QuantityInput from "./QuantityInput";
 import { useContext } from "react";
 import { CartProvider } from "@/context";
 import axios from "axios";
+import { formatRupiah } from "@/helper";
+import { IoMdClose } from "react-icons/io";
 
 interface CartItems {
     product: {
@@ -19,7 +21,17 @@ export default function ListCart({ data }: { data: CartItems }) {
     const cartContext = useContext(CartProvider);
     const { cart, setCart } = cartContext!;
 
-    const removeItem = async () => { }
+    const handleRemove = async () => {
+        const res = await axios.post('/api/cart/remove', {
+            productId: data.product._id
+        })
+        if (res.status === 200) {
+            const newCart = cart.filter((item: CartItems) => item.product._id !== data.product._id)
+            return setCart(newCart)
+        } else {
+            return
+        }
+    }
 
     const handleDecrement = async () => {
         const res = await axios.post('/api/cart/reduce', {
@@ -27,21 +39,20 @@ export default function ListCart({ data }: { data: CartItems }) {
             quantity: 1
         })
         if (res.status === 200) {
-            cart.map((item: CartItems) => {
-                if (item.product._id === data.product._id && item.quantity > 1) {
-                    const newCart = cart.map((item: CartItems) => {
-                        if (item.product._id === data.product._id) {
-                            return { product: item.product, quantity: item.quantity - 1 }!
-                        } else {
-                            return item
-                        }
-                    })
-                    return setCart(newCart)
-                } else {
-                    const newCart = cart.filter((item: CartItems) => item.product._id !== data.product._id)
-                    return setCart(newCart)
-                }
-            })
+            const product = cart.find((item) => item.product._id === data.product._id)!
+            if (product.quantity === 1) {
+                const newCart = cart.filter((item: CartItems) => item.product._id !== data.product._id)
+                return setCart(newCart)
+            } else {
+                const newCart = cart.map((item: CartItems) => {
+                    if (item.product._id === data.product._id) {
+                        return { product: item.product, quantity: item.quantity - 1 }!
+                    } else {
+                        return item
+                    }
+                })
+                return setCart(newCart)
+            }
         } else {
             return
         }
@@ -71,13 +82,15 @@ export default function ListCart({ data }: { data: CartItems }) {
     }
 
     return (
-        <div className="flex gap-8">
-            <Image className="w-40" width={500} height={500} src={`http://localhost:5340/images${data.product.image_thumbnail}`} alt={data.product.image_thumbnail} />
-            <div>
-                <h1>{data.product.name}</h1>
-                <p>{data.product._id}</p>
+        <div className="flex gap-8 items-center">
+            <Image className="w-36" width={500} height={500} src={`https://backend-store-apple.vercel.app/images${data.product.image_thumbnail}`} alt={data.product.image_thumbnail} />
+            <div className='w-52'>
+                <h1 className="text-base font-medium">{data.product.name}</h1>
+                <p className="text-sm opacity-80">{data.product._id}</p>
             </div>
-            <QuantityInput quantity={data.quantity} />
+            <QuantityInput quantity={data.quantity} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
+            <h1 className="text-base w-32 p-2 font-medium">{formatRupiah(data.quantity * data.product.price)}</h1>
+            <IoMdClose onClick={handleRemove} className="w-10 hover:cursor-pointer" />
         </div>
     )
 }

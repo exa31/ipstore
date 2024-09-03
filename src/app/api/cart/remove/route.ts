@@ -15,10 +15,10 @@ export const POST = async (req: NextRequest) => {
         }
     }
     try {
-        const res = await axios.post('http://localhost:5340/api/carts/remove', {
+        const res = await axios.post(`${process.env.API_ENDPOINT_DATA}/carts/remove`, {
             productId: data.productId
         }, config)
-        NextResponse.json({ message: 'Item reduced from cart', data: res.data })
+        return NextResponse.json({ message: 'Item reduced from cart', data: res.data })
     } catch (e) {
         return NextResponse.error()
     }

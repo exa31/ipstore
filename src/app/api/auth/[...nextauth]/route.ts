@@ -19,7 +19,7 @@ const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req): Promise<any> {
-                const login = await axios.post('http://localhost:5340/auth/login', {
+                const login = await axios.post(`${process.env.API_ENDPOINT_USER}/login`, {
                     email: credentials?.email,
                     password: credentials?.password,
                 })
@@ -27,9 +27,12 @@ const authOptions: NextAuthOptions = {
                 if (!data.token) {
                     return null
                 } else {
-                    cookies().set('jwt', data.token, { secure: true, sameSite: 'strict', path: '/' })
+                    const expires = new Date();
+                    expires.setMonth(expires.getMonth() + 1);
+                    cookies().set('jwt', data.token, { secure: true, sameSite: 'strict', path: '/', expires });
                     return {
                         email: credentials?.email,
+                        name: data.name,
                         token: data.token
                     }
                 }
@@ -38,13 +41,13 @@ const authOptions: NextAuthOptions = {
         // ...add more providers here
     ],
     callbacks: {
-        async signIn({ account, profile }) {
+        async signIn({ account, profile, }) {
             if (account?.provider === 'credentials') {
                 return true
             }
             if (account?.provider === 'google') {
                 try {
-                    const login = await fetch('http://localhost:5340/auth/signin', {
+                    const login = await fetch(`${process.env.API_ENDPOINT_USER}/signin`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -55,15 +58,17 @@ const authOptions: NextAuthOptions = {
                     })
                     const data = await login.json()
                     if (!data.token) {
-                        return false
+                        return '/register'
                     }
-                    cookies().set('jwt', data.token, { secure: true, sameSite: 'strict', path: '/' })
+                    const expires = new Date();
+                    expires.setMonth(expires.getMonth() + 1);
+                    cookies().set('jwt', data.token, { secure: true, sameSite: 'strict', path: '/', expires });
                     return true
                 } catch (error) {
-                    return false
+                    return '/register'
                 }
             }
-            return false; // Return true to allow sign in
+            return false;
         },
         async redirect({ url, baseUrl }): Promise<string> {
             return baseUrl
@@ -73,7 +78,7 @@ const authOptions: NextAuthOptions = {
     pages: {
         signIn: '/login',
         error: '/login',
-
+        newUser: '/register'
     }
 }
 

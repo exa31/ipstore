@@ -7,13 +7,20 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { useState } from "react";
 import { FcLike } from "react-icons/fc";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Card({ data }: { data: CardProps }) {
 
     const [isFavorite, setIsFavorite] = useState(false)
+    const { status } = useSession()
+    const router = useRouter()
 
     const handleLike = (e: React.MouseEvent<SVGAElement>): void => {
         e.stopPropagation();
+        if (status !== 'authenticated') {
+            return router.push('/login')
+        }
         setIsFavorite(!isFavorite);
     };
 
@@ -30,7 +37,7 @@ export default function Card({ data }: { data: CardProps }) {
             </button>
 
             <Image
-                src={`http://localhost:5340/images${data.image_thumbnail}`}
+                src={`https://backend-store-apple.vercel.app/images${data.image_thumbnail}`}
                 alt={data.name}
                 width={500}
                 height={500}

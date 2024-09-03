@@ -17,7 +17,7 @@ export default function ShopLayouts({ children }: { children: React.ReactNode, }
 
     useEffect(() => {
         const categories = async () => {
-            const res = await fetch('http://localhost:5340/api/categories');
+            const res = await fetch('/api/categories');
             const data = await res.json();
             setCategories(data);
         }
@@ -25,9 +25,9 @@ export default function ShopLayouts({ children }: { children: React.ReactNode, }
     }, []);
 
     return (
-        <div className="flex container mx-auto">
+        <div className="flex px-4 mt-10 items-center sm:items-start container sm:mx-auto flex-col sm:flex-row">
             {
-                pathname === '/shop' && <div><SideBar categories={categories} /></div>
+                pathname === '/shop' && <SideBar categories={categories} />
             }
             {children}
         </div >

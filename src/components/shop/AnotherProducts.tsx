@@ -3,13 +3,15 @@
 
 import { useEffect, useState } from "react";
 import { CardProps } from "../type";
-import CardShop from "./Card";
 
-export default function AnotherProducts({ category }: { category: string }) {
+import CardShopDetail from "./CardShopDetail";
+
+export default function AnotherProducts({ category, favorite, setFavorite }: { category: string, favorite: { _id: string }[], setFavorite: (favorite: { _id: string }[]) => void }) {
 
     const [products, setProducts] = useState<CardProps[]>([])
     const [count, setCount] = useState<number>(0)
     const [loading, setLoading] = useState<boolean>(true)
+
     const [skip, setSkip] = useState<number>(0)
 
     useEffect(() => {
@@ -21,6 +23,7 @@ export default function AnotherProducts({ category }: { category: string }) {
         }).catch(err => {
             console.log(err)
             setLoading(false)
+            return new Error(err)
         })
     }, [category, skip])
 
@@ -31,7 +34,7 @@ export default function AnotherProducts({ category }: { category: string }) {
                 <div className="container mb-20 gap-4 mt-4 mx-auto grid grid-cols-4">
                     {products.map((item: CardProps, index: number) => {
                         return (
-                            <CardShop key={index} product={item} />
+                            <CardShopDetail key={index} setFavorite={setFavorite} product={item} favorite={favorite} />
                         )
                     })}
                 </div>

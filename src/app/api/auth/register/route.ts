@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest) => {
     const data = await req.json()
     try {
-        const res = await axios.post('http://localhost:5340/auth/register', {
+        const res = await axios.post(`${process.env.API_ENDPOINT_USER}/register`, {
             email: data.email,
             password: data.password,
             name: data.name

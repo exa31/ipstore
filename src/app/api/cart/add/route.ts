@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.error()
     }
     try {
-        const res = await axios.post('http://localhost:5340/api/carts', {
+        const res = await axios.post(`${process.env.API_ENDPOINT_DATA}/carts`, {
             productId: data.productId,
             quantity: data.quantity
         }, config)

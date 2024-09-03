@@ -6,6 +6,7 @@ import Loading from "./loading";
 import CardShop from "@/components/shop/Card";
 import PaginationShop from "@/components/shop/Pagination";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 
 
@@ -13,6 +14,7 @@ import { useSearchParams } from "next/navigation";
 export default function Shop() {
 
     const [show, setShow] = useState(false);
+    const { status } = useSession()
     const searchParams = useSearchParams();
     const category = searchParams.get('category');
     const q = searchParams.get('q');
@@ -25,10 +27,12 @@ export default function Shop() {
     });
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(true);
+    const [favorite, setFavorite] = useState<{ _id: string }[]>([]);
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [category]);
+    }, [category, q]);
+
     if (show) {
         if (timeoutIdRef.current) {
             clearTimeout(timeoutIdRef.current);
@@ -38,9 +42,24 @@ export default function Shop() {
         }, 2000);
     }
 
-
-
-
+    useEffect(() => {
+        if (status !== 'authenticated') {
+            return
+        }
+        const checkFavorite = async () => {
+            try {
+                const res = await fetch('/api/like')
+                if (res.status === 200) {
+                    const data = await res.json()
+                    setFavorite(data)
+                }
+            } catch (error) {
+                console.log(error)
+                return
+            }
+        }
+        checkFavorite()
+    }, [status])
 
     useEffect(() => {
         setLoading(true);
@@ -56,7 +75,11 @@ export default function Shop() {
     return (
         <>
 
-            {loading ? <Loading />
+            {loading ? <>
+                <div className="w-full">
+                    <Loading />
+                </div>
+            </>
                 : details.count === 0 ? <h1 className="text-2xl text-center text-gray-600 mx-auto mt-10 mb-10 font-medium">No Products Found</h1>
                     :
                     <div>
@@ -64,11 +87,11 @@ export default function Shop() {
                             Product Success Added to Cart 👍👍👍
                         </div>
                         <h1 className="text-2xl text-gray-600 mt-10 mb-10 font-medium">Selected Products: <span className="font-semibold text-black">{details.count}</span></h1>
-                        <div className="grid grid-cols-3 gap-4">
+                        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
                             {
                                 details.products.map((product: CardProps, index: number) => {
                                     return (
-                                        <CardShop key={index} setShow={setShow} product={product} />
+                                        <CardShop key={index} setShow={setShow} product={product} favorite={favorite} />
                                     )
                                 })
                             }

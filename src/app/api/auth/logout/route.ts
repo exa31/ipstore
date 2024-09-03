@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = (req: NextRequest) => {
     const token = cookies().get('jwt');
 
-    return axios.post('http://localhost:5340/auth/logout', {}, {
+    return axios.post(`${process.env.API_ENDPOINT_USER}/logout`, {}, {
         headers: {
             Authorization: `Bearer ${token?.value}`
         }

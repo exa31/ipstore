@@ -6,7 +6,7 @@ export const GET = async (req: NextRequest) => {
     const skip = req.nextUrl.searchParams.get('skip')
     const q = req.nextUrl.searchParams.get('q')
     const limit = req.nextUrl.searchParams.get('limit')
-    const response = await fetch(`http://localhost:5340/api/products?limit=${limit}&skip=${skip}&category=${category || ''}&q=${q || ''}`)
+    const response = await fetch(`${process.env.API_ENDPOINT_DATA}/products?limit=${limit}&skip=${skip}&category=${category || ''}&q=${q || ''}`)
     const data = await response.json()
     if (!data) {
         return NextResponse.error()

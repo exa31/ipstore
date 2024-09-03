@@ -4,7 +4,7 @@ import Image from "next/image";
 import { CardProps } from "../type";
 import { formatRupiah } from "@/helper/index";
 import { IoIosHeartEmpty } from "react-icons/io";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FcLike } from "react-icons/fc";
 import Link from "next/link";
 import axios from "axios";
@@ -15,22 +15,55 @@ import { CartProvider } from "@/context";
 interface CartItems {
     product: CardProps;
     setShow?: (show: boolean) => void;
+    favorite: { _id: string }[];
+    setFavorite?: (favorite: { _id: string }[]) => void;
 }
 
-export default function CardShop({ product, setShow }: CartItems) {
+export default function CardShop({ product, setShow, favorite, setFavorite }: CartItems) {
 
     const [isFavorite, setIsFavorite] = useState(false)
-
     const { status } = useSession()
     const router = useRouter()
     const CartContext = useContext(CartProvider);
     const { cart, setCart } = CartContext!;
 
 
-    const handleLike = (e: React.MouseEvent<SVGAElement>): void => {
+    const handleLike = async (e: React.MouseEvent<SVGAElement>) => {
         e.stopPropagation();
-        setIsFavorite(!isFavorite);
+        if (status !== 'authenticated') {
+            return router.push('/login')
+        }
+        try {
+            const res = await axios.post('/api/like', {
+                productId: product._id
+            })
+            if (res.status === 200) {
+                setIsFavorite(!isFavorite);
+                if (setFavorite !== undefined) {
+                    const existProduct = favorite.find((item) => item._id === product._id)
+                    if (existProduct) {
+                        console.log(favorite)
+                        const newFavorite = favorite.filter((item) => item._id !== product._id)
+                        setFavorite(newFavorite)!
+                    } else {
+                        console.log(favorite)
+                        setFavorite([...favorite, product])!
+                    }
+                }
+
+            }
+        } catch (error) {
+            return
+        }
     };
+    useEffect(() => {
+        if (status !== 'authenticated') {
+            return
+        }
+        const isFav = favorite.some((item) => item._id === product._id);
+        setIsFavorite(isFav);
+
+    }, [favorite, status, product._id])
 
     const handleAddCart = async () => {
         if (status !== 'authenticated') {
@@ -48,7 +81,7 @@ export default function CardShop({ product, setShow }: CartItems) {
             if (existProduct) {
                 const newCart = cart.map((item) => {
                     if (item.product._id === product._id) {
-                        return { product: item.product, quantity: item.quantity + 1 }
+                        return { ...item, quantity: item.quantity + 1 }
                     } else {
                         return item
                     }
@@ -60,10 +93,10 @@ export default function CardShop({ product, setShow }: CartItems) {
             return
         }
     }
+
     return (
         <>
-
-            <div className="group relative block overflow-hidden rounded-lg bg-slate-100">
+            <div className="group relative block overflow-hidden rounded-lg bg-slate-100 m-4">
                 <button
                     className="z-10 w-full rounded-full text-gray-900 transition hover:text-gray-900/75"
                 >
@@ -74,12 +107,12 @@ export default function CardShop({ product, setShow }: CartItems) {
                     }
                 </button>
                 <Image
-                    src={`http://localhost:5340/images${product.image_thumbnail}`}
+                    src={`https://backend-store-apple.vercel.app/images${product.image_thumbnail}`}
                     alt={product.name}
                     width={500}
                     priority={true}
                     height={500}
-                    className="h-96 w-96 object-contain transition duration-500 group-hover:scale-105 p-0 overflow-hidden sm:h-72"
+                    className="h-96 md:w-96 w-72 object-contain transition duration-500 group-hover:scale-105 p-0 overflow-hidden sm:h-72"
                 />
 
                 <div className="relative p-6 text-center">

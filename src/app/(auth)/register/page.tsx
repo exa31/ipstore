@@ -136,8 +136,11 @@ export default function Register() {
                     </div>
                     {error.confirmPassword && <p className="text-red-500 mt-2">Password is not match</p>}
                     <div className="mt-6">
-                        <button className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 ${submitting && 'btn-disabled'}`}>
+                        <button className={`w-full mb-6 px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 ${submitting && 'btn-disabled'}`}>
                             Sign Up
+                        </button>
+                        <button onClick={() => router.back()} className={`w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50 ${submitting && 'btn-disabled'}`}>
+                            Back
                         </button>
                         <div className="mt-6 text-center ">
                             <Link href="/login" className="text-sm text-blue-500 hover:underline dark:text-blue-400">

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function Footer() {
 
-    const pathname: string = usePathname();
+    const pathname: string = usePathname()
 
     return (
         <footer className="bg-stone-950">
@@ -40,21 +40,21 @@ export default function Footer() {
                             </a>
                         </div>
 
-                        <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 lg:text-left">
+                        <p className="mx-auto my-6 max-w-md text-center leading-relaxed text-gray-500 lg:text-left">
                             We are a residential interior design firm located in Portland. Our boutique-studio offers more than
                         </p>
                     </div>
 
-                    <ul className="flex items-center gap-6 text-sm">
+                    <ul className="flex items-center md:justify-normal justify-center gap-6 text-sm">
                         <li>
                             <Link className={` transition hover:text-white ${pathname === '/' ? 'text-white' : 'text-gray-500'}`} href="/"> Home </Link>
                         </li>
 
                         <li>
-                            <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Shop </a>
+                            <Link className="text-gray-500 transition hover:text-gray-500/75" href="/shop"> Shop </Link>
                         </li>
 
-                        <li>
+                        {/* <li>
                             <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About </a>
                         </li>
 
@@ -64,7 +64,7 @@ export default function Footer() {
 
                         <li>
                             <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Blog </a>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
 

@@ -1,5 +1,3 @@
-import { on } from "events"
-
 export default function Pagination({ currentPage, totalPages, onPageChange }: { currentPage: number, totalPages: number, onPageChange: (page: number) => void }) {
 
     function handlePrevPage() {

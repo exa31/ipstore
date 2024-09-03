@@ -14,7 +14,7 @@ export default function SideBar({ categories, }: { categories: { name: string, i
 
 
     return (
-        <div className="w-1/8 me-20 sticky top-20">
+        <div className="w-1/8 me-20 md:sticky mx-auto top-20">
             <label htmlFor="category" className="block text-sm font-medium text-gray-900"> Category </label>
             <select
                 name="category"
@@ -30,7 +30,9 @@ export default function SideBar({ categories, }: { categories: { name: string, i
                     <option key={index} value={category.name}>{category.name}</option>
                 ))}
             </select>
-            <button onClick={handleReset} className="mt-8 bg-black px-8 py-2 rounded-lg text-white">Reset</button>
+            <div className="mx-auto">
+                <button onClick={handleReset} className="mt-8 bg-black px-8 py-2 rounded-lg text-white">Reset</button>
+            </div>
         </div>
     )
 }

@@ -2,14 +2,21 @@ import Banner from "@/components/Home/banner";
 import CategorySec from "@/components/Home/CategorySec";
 import DiscountSec from "@/components/Home/DiscountSec";
 import TabHomeSec from "@/components/Home/TabHomeSec";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Cyber Apple Store",
+  description: "Reseller Apple products",
+  authors: [{ name: "Moh. Eka Syafrino Nazhifan" }]
+};
 
 export default function Home() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between">
-        <div className="bg-[#211c24] 2xl:justify-center w-full flex items-center" >
+        <div className="bg-[#211c24] hidden  2xl:justify-center w-full sm:flex items-center" >
           <div className="flex flex-col me-10 ms-auto 2xl:ms-0">
             <h3 className="text-zinc-600 text-[25px]">Pro.Beyond.</h3>
             <h1 className="text-[96px] text-white font-bold"><span className="font-thin">IPhone 14</span> Pro</h1>

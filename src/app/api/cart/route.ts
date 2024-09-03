@@ -10,7 +10,7 @@ export const GET = async (req: NextRequest) => {
         }
     }
     try {
-        const res = await axios.get('http://localhost:5340/api/carts', config)
+        const res = await axios.get(`${process.env.API_ENDPOINT_DATA}/carts`, config)
         return NextResponse.json(res.data)
     } catch (e) {
         return NextResponse.error()

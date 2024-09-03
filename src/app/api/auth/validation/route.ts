@@ -11,7 +11,7 @@ export const POST = async (req: NextRequest) => {
         },
     }
     try {
-        const res = await axios.get('http://localhost:5340/auth/me', config)
+        const res = await axios.get(`${process.env.API_ENDPOINT_USER}/me`, config)
         return NextResponse.json(res.data)
     } catch (e) {
         const error = e as AxiosError
