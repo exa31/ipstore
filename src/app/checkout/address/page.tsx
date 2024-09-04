@@ -67,7 +67,7 @@ export default function CheckoutAddress() {
                             </label>
                         ))}
                     </div>
-                    <div className="gap-8 my-10 w-max flex ms-auto">
+                    <div className="gap-8 ms-4 my-10 w-max flex md:ms-auto">
                         <Link href={`/cart`}
                             onClick={() => setAddress('')}
                             className="block rounded-lg w-full bg-transparent px-8 py-3 text-sm font-medium transition hover:scale-105 text-black border-2 border-black"

@@ -11,7 +11,7 @@ export default function LayoutCheckout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
 
     return (
-        <div className="container mx-auto">
+        <div className="container p-3 mx-auto">
             <div className="flex flex-col">
                 <div className="flex justify-between  mt-10">
                     <div className={`flex items-center ${pathname === '/checkout/address' ? 'opacity-100' : 'opacity-30'}`}>

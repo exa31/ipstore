@@ -47,7 +47,7 @@ export default function Likes() {
                     <div className="text-center">
                         Likes
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid lg:grid-cols-3 2xl:grid-cols-4 md:grid-cols-2 gap-4">
                         {data.map((item, index) => {
                             return (
                                 <CardLikes removeFavorite={removeFavorite} key={index} data={item} />

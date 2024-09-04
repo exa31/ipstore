@@ -21,7 +21,7 @@ export default function Cart() {
                         <p className="text-black mb-4 text-4xl font-semibold">Cart is empty</p>
                         <Link href={'/shop'} className="block text-center rounded-lg w-full bg-black p-4 text-sm font-medium transition hover:scale-105 text-white border-2 border-black" >Go To Shop</Link>
                     </div> :
-                    <div className="flex mx-auto my-10 container">
+                    <div className="flex lg:flex-row flex-col  mx-auto my-10 container">
                         <div className="border-e p-8 border-e-gray-200 border-b border-t border-t-gray-100 border-b-gray-100">
                             <h1 className="font-semibold mb-8 text-2xl">Shopping Cart</h1>
                             <div className="flex pe-8 flex-col max-h-[500px] gap-8 overflow-y-auto ">

@@ -82,15 +82,21 @@ export default function ListCart({ data }: { data: CartItems }) {
     }
 
     return (
-        <div className="flex gap-8 items-center">
-            <Image className="w-36" width={500} height={500} src={`https://backend-store-apple.vercel.app/images${data.product.image_thumbnail}`} alt={data.product.image_thumbnail} />
-            <div className='w-52'>
-                <h1 className="text-base font-medium">{data.product.name}</h1>
-                <p className="text-sm opacity-80">{data.product._id}</p>
+        <div className="flex md:gap-8 gap-4 flex-row items-center">
+            <Image className="md:w-36 w-20" width={500} height={500} src={`https://backend-store-apple.vercel.app/images${data.product.image_thumbnail}`} alt={data.product.image_thumbnail} />
+            <div className="flex md:flex-row flex-col md:gap-4">
+                <div className='md:w-52'>
+                    <h1 className="text-base font-medium">{data.product.name}</h1>
+                    <p className="text-sm opacity-80">{data.product._id}</p>
+                </div>
+                <div className="flex md:flex-row flex-col md:items-center md:gap-4">
+                    <QuantityInput quantity={data.quantity} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
+                    <div className="flex items-center">
+                        <h1 className="text-base w-32 p-2 font-medium">{formatRupiah(data.quantity * data.product.price)}</h1>
+                        <IoMdClose onClick={handleRemove} className="w-10 hover:cursor-pointer" />
+                    </div>
+                </div>
             </div>
-            <QuantityInput quantity={data.quantity} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
-            <h1 className="text-base w-32 p-2 font-medium">{formatRupiah(data.quantity * data.product.price)}</h1>
-            <IoMdClose onClick={handleRemove} className="w-10 hover:cursor-pointer" />
         </div>
     )
 }

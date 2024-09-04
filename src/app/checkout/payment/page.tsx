@@ -20,7 +20,7 @@ export default function Payment() {
     return (
         <div>
             <h3 className="text-3xl font-semibold my-10">Summary</h3>
-            <div className="grid grid-cols-2">
+            <div className="grid md:grid-cols-2">
                 <div className="max-h-[500px] gap-8 overflow-y-auto ">
                     {cart.map((item, index) => {
                         return (
