@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function middleware(request: Request) {
     const cookie = cookies().get('jwt')
     try {
-        const res = await axios.post('http://localhost:3000/api/auth/validation', {
+        const res = await axios.post(`${process.env.API_ENDPOINT_USER}/auth/validation`, {
             token: cookie?.value
         })
         if (res.data.status === 401) {

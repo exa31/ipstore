@@ -7,7 +7,7 @@ export default function CategorySec(): JSX.Element {
     return (
         <div className="container mx-auto mt-20">
             <h3 className="font-medium text-2xl ms-14">Browse By Category</h3>
-            <div className="grid grid-cols-5 mt-10 justify-items-center">
+            <div className="grid lg:grid-cols-5 sm:grid-cols-2 md:grid-cols-3 mt-10 justify-items-center gap-6">
                 <Link href={"/shop?category=iPhone"} className="py-10 w-40 rounded-2xl bg-stone-200 flex flex-col items-center">
                     <MdOutlinePhoneIphone className="text-5xl " />
                     <h5 className="text-base font-medium">iPhone</h5>

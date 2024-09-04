@@ -81,7 +81,7 @@ export default function Navbar() {
                             </label>
                         </form>
                     </div>
-                    <nav className={`flex md:items-start items-center gap-6 text-sm ${active ? 'absolute sm:static z-40 sm:mt-0 mt-16 top-0 bg-white sm:h-auto h-screen right-0 w-60 sm:w-max flex-col transition-all duration-200 md:flex-row' : 'overflow-hidden sm:static absolute z-40 mt-16 top-0 bg-white h-screen right-0 sm:w-full w-0 transition-all duration-200 md:flex-row flex-col'}`}>
+                    <nav className={`flex md:items-start items-center gap-6 text-sm ${active ? 'absolute sm:static z-40 sm:mt-0 mt-16 top-0 bg-white sm:h-auto h-screen right-0 w-60 sm:w-max flex-col transition-all duration-200 md:flex-row' : 'absolute sm:static z-40 sm:mt-0 mt-16 top-0 bg-white sm:h-auto h-screen right-0 w-0 sm:w-max overflow-hidden flex-col transition-all duration-200 md:flex-row'}`}>
                         <p>
                             <Link className={` transition hover:text-black ${pathname === '/' ? 'text-black cursor-default' : 'text-gray-500'}`} href="/"> Home </Link>
                         </p>

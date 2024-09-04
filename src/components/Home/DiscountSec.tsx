@@ -22,7 +22,7 @@ export default function DiscountSec() {
             <div className="flex flex-col items-center mt-20 justify-center gap-4">
                 <h1 className="text-4xl font-bold text-center text-gray-900">Discount</h1>
                 <p className="text-lg text-center text-gray-700">Get discount up to 50% for this items</p>
-                <div className="container gap-4 mt-4 mx-auto grid grid-cols-4">
+                <div className="container gap-4 mt-4 mx-auto grid lg:grid-cols-4 sm:grid-cols-2">
                     {data.map((item: CardProps, index: number) => {
                         return (
                             <Card key={index} data={item} />

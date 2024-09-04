@@ -21,7 +21,7 @@ export default function Tab1() {
         fetchData()
     }, [])
     return (
-        <div className="container gap-4 mx-auto grid grid-cols-4">
+        <div className="container gap-4 mx-auto grid lg:grid-cols-4 sm:grid-cols-2">
             {data.map((item: CardProps, index: number) => {
                 return (
                     <Card key={index} data={item} />
