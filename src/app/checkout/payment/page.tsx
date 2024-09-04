@@ -12,13 +12,6 @@ export default function Payment() {
     const addressProvider = useContext(AddressProvider);
     const { address, setAddress } = addressProvider!;
     const { cart, setCart } = cartProvider!;
-    const router = useRouter();
-
-    useEffect(() => {
-        if (cart.length === 0) {
-            router.push('/shop');
-        }
-    }, [cart]);
 
     const subTotal = cart.reduce((acc, item) => {
         return acc + item.product.price * item.quantity;

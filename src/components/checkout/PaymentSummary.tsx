@@ -26,11 +26,14 @@ export default function PaymentSummary({ setCart, subTotal, addressId, setAddres
     const { discount, setDiscount } = dicsountProvider!
     const tax = 200000
     const shipping = 20000
-    const router = useRouter()
     const total = subTotal + tax + shipping
+    const router = useRouter()
 
     const handlePay = async () => {
         try {
+            if (subTotal === 0) {
+                return router.push('/shop')
+            }
             const checkout = await axios.post('/api/order', {
                 subTotal,
                 tax,

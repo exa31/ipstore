@@ -22,9 +22,22 @@ export default function CheckoutAddress() {
     const { address, setAddress } = addressProvider!;
 
     useEffect(() => {
-        fetch('/api/delivery-address')
-            .then(response => response.json())
-            .then(data => setAddresses(data));
+        const fetchAddress = async () => {
+            try {
+                const res = await fetch('/api/delivery-address');
+                if (!res.ok) {
+                    throw new Error()
+                }
+                const data = await res.json();
+                if (data.status === 404) {
+                    return
+                }
+                setAddresses(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchAddress()
     }, []);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +50,7 @@ export default function CheckoutAddress() {
                 <div className="mt-14">
                     <h1 className="text-xl font-semibold">No Address Found</h1>
                     <p className="mt-4 mb-8">{"You haven't added any address yet. Please add your address first."}</p>
-                    <Link href={'/address/create-alamat'} className="mt-4 px-8 py-3 bg-black text-white p-2 rounded-md">Add Address</Link>
+                    <Link href={'/account/address/create-alamat'} className="mt-4 px-8 py-3 bg-black text-white p-2 rounded-md">Add Address</Link>
                 </div>
                 :
                 <div className="mt-14">

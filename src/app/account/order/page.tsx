@@ -1,5 +1,6 @@
 'use client'
 
+import { formatRupiah } from "@/helper";
 import Link from "next/link";
 import { useEffect, useState } from "react"
 
@@ -51,9 +52,6 @@ export default function Order() {
                                         Id
                                     </th>
                                     <th>
-                                        Method Payment
-                                    </th>
-                                    <th>
                                         Status Payment
                                     </th>
                                     <th>
@@ -75,9 +73,6 @@ export default function Order() {
                                                 {data._id}
                                             </td>
                                             <td>
-                                                {data.payment_method}
-                                            </td>
-                                            <td>
                                                 {data.status_payment}
                                             </td>
                                             <td>
@@ -87,7 +82,7 @@ export default function Order() {
                                                 {data.order_items.length}
                                             </td>
                                             <td>
-                                                {data.total}
+                                                {formatRupiah(data.total)}
                                             </td>
                                             <td>
                                                 <Link

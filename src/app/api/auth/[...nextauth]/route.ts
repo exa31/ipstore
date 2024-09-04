@@ -2,7 +2,6 @@ import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import { cookies } from "next/headers"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { CredentialsConfig } from "next-auth/providers/credentials"
 import axios from "axios"
 
 const authOptions: NextAuthOptions = {
@@ -30,11 +29,8 @@ const authOptions: NextAuthOptions = {
                     const expires = new Date();
                     expires.setMonth(expires.getMonth() + 1);
                     cookies().set('jwt', data.token, { secure: true, sameSite: 'strict', path: '/', expires });
-                    return {
-                        email: credentials?.email,
-                        name: data.name,
-                        token: data.token
-                    }
+                    const user = { name: data.name, email: credentials?.email }
+                    return user
                 }
             }
         })
@@ -60,6 +56,7 @@ const authOptions: NextAuthOptions = {
                     if (!data.token) {
                         return '/register'
                     }
+                    profile!.name = data.name!
                     const expires = new Date();
                     expires.setMonth(expires.getMonth() + 1);
                     cookies().set('jwt', data.token, { secure: true, sameSite: 'strict', path: '/', expires });

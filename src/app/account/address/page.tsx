@@ -16,14 +16,23 @@ interface Address {
 export default function Address() {
 
     const [address, setAddress] = useState<Address[]>([]);
-
     useEffect(() => {
-        fetch('/api/delivery-address').then((res) => res.json()).then((data) => {
-            setAddress(data)
-        }).catch((err) => {
-            console.log(err)
-            throw new Error(err)
-        })
+        const fetchAddress = async () => {
+            try {
+                const res = await fetch('/api/delivery-address');
+                if (!res.ok) {
+                    throw new Error()
+                }
+                const data = await res.json();
+                if (data.status === 404) {
+                    return
+                }
+                setAddress(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchAddress()
     }, []);
 
     function handleDelete(id: string) {

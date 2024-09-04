@@ -27,7 +27,7 @@ export default function Navbar() {
     const router = useRouter();
     const cartContext: CartType | null = useContext(CartProvider)!;
     const { cart, setCart } = cartContext;
-    const [active, setActive] = useState<boolean>(true);
+    const [active, setActive] = useState<boolean>(false);
     const { status } = useSession();
 
     useEffect(() => {

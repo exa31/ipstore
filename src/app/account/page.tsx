@@ -1,4 +1,10 @@
-export default async function Profile() {
+'use client';
+
+import { useSession } from "next-auth/react";
+
+export default function Profile() {
+
+    const { data } = useSession();
 
     return (
         <div className="flex flex-col w-full">
@@ -9,11 +15,11 @@ export default async function Profile() {
                 <div className="flex flex-row mx-10 justify-between">
                     <div className="w-1/2">
                         <p className="text-2xl py-4 border-b-2 font-semibold">Name</p>
-                        <p className="text-lg py-4">John Doe</p>
+                        <p className="text-lg py-4">{data?.user?.name}</p>
                     </div>
                     <div className="w-1/2">
                         <p className="text-2xl py-4 border-b-2 font-semibold">Email</p>
-                        <p className="text-lg py-4">bloodsuker18@gmail.com</p>
+                        <p className="text-lg py-4">{data?.user?.email}</p>
                     </  div>
                 </div>
             </div>

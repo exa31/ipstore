@@ -12,13 +12,16 @@ export const GET = async (req: NextRequest) => {
     }
     try {
         const res = await fetch(`${process.env.API_ENDPOINT_DATA}/delivery-addresses`, config);
+        if (res.status === 404) {
+            return NextResponse.json({ message: 'Not Found', status: 404 });
+        }
         const data = await res.json();
         return NextResponse.json(data);
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
         return NextResponse.error();
     }
-};
+}
+
 
 export const POST = async (req: NextRequest) => {
     const token = cookies().get('jwt');
