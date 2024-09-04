@@ -56,7 +56,9 @@ const authOptions: NextAuthOptions = {
                     if (!data.token) {
                         return '/register'
                     }
-                    profile!.name = data.name!
+                    if (data.name) {
+                        profile!.name = data.name; // Override the name from Google with the name from the server
+                    }
                     const expires = new Date();
                     expires.setMonth(expires.getMonth() + 1);
                     cookies().set('jwt', data.token, { secure: true, sameSite: 'strict', path: '/', expires });
@@ -66,6 +68,21 @@ const authOptions: NextAuthOptions = {
                 }
             }
             return false;
+        },
+        async jwt({ token, user, account, profile }) {
+            if (user) {
+                token.email = user.email;
+                token.name = user.name;
+            }
+            if (account?.provider === 'google' && profile) {
+                token.name = profile.name; // Override the name in the token
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            session.user!.email = token.email;
+            session.user!.name = token.name;
+            return session;
         },
         async redirect({ url, baseUrl }): Promise<string> {
             return baseUrl
